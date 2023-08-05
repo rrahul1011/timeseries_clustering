@@ -215,9 +215,19 @@ def main():
         fo_df = run_prophet_model_for_key(df_temp, best_hyp, k)
 
         for_his_df = fo_df[-1]
+        # Create the figure using px.line
+        fig = px.line(
+            data_frame=for_his_df,
+            x="ds",
+            y=["volume", "yhat"],
+            title=for_his_df["key"].unique()[0] + " || " + str(round(for_his_df["accuracy"].unique()[0]))
+        )
 
-        st.plotly_chart(px.line(data_frame=for_his_df, x="ds", y=["volume", "yhat"],
-                                title=for_his_df["key"].unique()[0] + "||" + str(round(for_his_df["accuracy"].unique()[0]))))
+        # Update the layout of the figure to increase height and width
+        fig.update_layout(height=600, width=1500)
+
+        # Display the plot using st.plotly_chart
+        st.plotly_chart(fig)
     else:
         st.write("Hyperparameter Tuning is not selected. Only the clustering visualization will be displayed.")
     st.markdown("</div>", unsafe_allow_html=True)
