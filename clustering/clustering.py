@@ -147,7 +147,7 @@ def main():
     fig = px.line(data_frame=df_level, x="month", y="volume", title=title)
 
     # Update the layout of the figure to increase height and width
-    fig.update_layout(height=600, width=1500)
+    fig.update_layout(height=600, width=1300)
 
     # Display the plot using st.plotly_chart
     st.plotly_chart(fig)
@@ -201,8 +201,6 @@ def main():
 
         hyp_result = prophet_final(cluster_df_tune, cluster)
 
-        st.markdown(""" #### Selected cluster""")
-        st.write("Cluster:", cluster)
         st.write("Best Hyperparameter:", hyp_result[0][["hyp_para"]])
 
         # Get the best hyperparameter value
@@ -224,7 +222,7 @@ def main():
         )
 
         # Update the layout of the figure to increase height and width
-        fig.update_layout(height=600, width=1500)
+        fig.update_layout(height=600, width=1300)
 
         # Display the plot using st.plotly_chart
         st.plotly_chart(fig)
