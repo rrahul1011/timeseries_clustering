@@ -257,7 +257,9 @@ def plot_level(df, level, country, channel,sector,price_tier):
     if price_tier is not None:
         df_t = df_t[df_t["price_tier"] == price_tier]
     if len(df_t)==0:
-        st.write(" ### This Combination does not exist")
+        st.warning("This Combination does not exist")
+
+
 
     return df_t
 

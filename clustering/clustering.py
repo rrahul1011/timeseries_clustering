@@ -9,6 +9,7 @@ import plotly.express as px
 def load_data(file_path):
     df = pd.read_csv(file_path)
     return df
+st.sidebar.header("***Visualization Parameters***")
 
 def select_countrt(d):
     country = st.sidebar.selectbox("Select Country:-",d["geo"].unique().tolist())
@@ -111,9 +112,8 @@ def main():
 
     # Visualization Section
     st.header("Visualization of a Particular Time at Different Levels")
-    st.write(
-        "Please select the level from the sidebar to visualize the time series data at that level."
-    )
+    st.info(" ##### Please select the level from the sidebar to visualize the time series data at that level.")
+
 
     # Additional Explanation
     st.header("Additional Explanation")
@@ -124,8 +124,7 @@ def main():
         "- **channel**: Channel information\n"
         "- **sector**: Sector information\n"
         "- **price_tier**: Price tier information\n\n"
-        "By selecting different levels, you can gain insights into how the time series data is distributed "
-        "and clustered across different dimensions. Have fun exploring the data!"
+       
     )
     country =select_countrt(df_ts)
     level = select_level(df_ts)
@@ -147,7 +146,7 @@ def main():
     fig = px.line(data_frame=df_level, x="month", y="volume", title=title)
 
     # Update the layout of the figure to increase height and width
-    fig.update_layout(height=600, width=1300)
+    fig.update_layout(height=500, width=1100)
 
     # Display the plot using st.plotly_chart
     st.plotly_chart(fig)
@@ -156,13 +155,10 @@ def main():
     num_cluster = user_input()
     cl_for_clustering = user_input_class()
     st.header("Clustering")
-    st.markdown("""
-            **Please select Parameter for Clustering**""")
-    st.markdown("<div class='selected-params'>", unsafe_allow_html=True)
-    st.markdown("<div class='selected-params-title'>You selected:</div>", unsafe_allow_html=True)
-    st.markdown(f"<div class='selected-params-item'>Class: {cl_for_clustering}</div>", unsafe_allow_html=True)
-    st.markdown(f"<div class='selected-params-item'>Number of Clusters: {num_cluster}</div>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.info(" ##### Please select Parameter for Clustering from the sidebar")
+    st.success("You selected:")
+    st.markdown(f"- Class: {cl_for_clustering}")
+    st.markdown(f"- Number of Clusters: {num_cluster}")
 
     # Perform clustering (and cache the result if not done already)
     cluster_df = perform_clustering(df_ts, df_cls, cl_for_clustering, num_cluster)
@@ -180,7 +176,7 @@ def main():
         fig = px.line(data_frame=cl_df.sort_values(by="month"), x="month", y="volume", color="key")
 
         # Create a larger figure with plotly.graph_objects
-        fig.update_layout(height=600, width=1500)  # Adjust height and width as needed
+        fig.update_layout(height=500, width=1100)  # Adjust height and width as needed
 
         st.subheader(f"Cluster {c}")
         st.plotly_chart(fig)
@@ -194,7 +190,10 @@ def main():
 
     if st.sidebar.checkbox("Perform Hyperparameter Tuning"):
         cluster = user_input_tuning(num_cluster)
-        st.markdown(f"#### Selected cluster for tuning: {cluster}")
+        
+        st.info(" ##### Please select cluster for tuning")
+        st.success(f"Selected cluster for tuning: {cluster}")
+
 
         # Filter data for the selected cluster
         cluster_df_tune = df_temp[df_temp["k_mean_clusters"] == cluster]
@@ -222,7 +221,7 @@ def main():
         )
 
         # Update the layout of the figure to increase height and width
-        fig.update_layout(height=600, width=1300)
+        fig.update_layout(height=500, width=1100)
 
         # Display the plot using st.plotly_chart
         st.plotly_chart(fig)
